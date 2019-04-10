@@ -287,5 +287,7 @@ config SDP_KEY_DUMP
     bool "SDP KEY DUMP"
     default n
 
+source "security/Kconfig.hardening"
+
 endmenu
 
