@@ -1533,7 +1533,7 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
 			err = loop_set_status64(lo, argp);
 		break;
 	case LOOP_GET_STATUS64:
-		err = loop_get_status64(lo, argp);
+		err = loop_get_status64(lo, (struct loop_info64 __user *) arg);
 		/* loop_get_status() unlocks lo_ctl_mutex */
 		goto out_unlocked;
 	case LOOP_SET_CAPACITY:
