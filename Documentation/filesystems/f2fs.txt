@@ -407,6 +407,12 @@ Files in /sys/fs/f2fs/<devname>
 
  current_reserved_blocks      This shows # of blocks currently reserved.
 
+ unusable                     If checkpoint=disable, this shows the number of
+                              blocks that are unusable.
+                              If checkpoint=enable it shows the number of blocks
+                              that would be unusable if checkpoint=disable were
+                              to be set.
+
 ================================================================================
 USAGE
 ================================================================================
