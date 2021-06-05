@@ -322,6 +322,7 @@ struct mms_ts_coordinate {
 struct mms_ts_info {
 	struct i2c_client *client;
 	struct input_dev *input_dev;
+	struct input_dev *input_dev_pad;
 	struct input_dev *input_dev_proximity;
 	char phys[32];
 	struct mms_devicetree_data *dtdata;
@@ -420,6 +421,7 @@ struct mms_ts_info {
 	u8 *dev_fs_buf;
 #endif
 
+	bool support_dex;
 #ifdef CONFIG_VBUS_NOTIFIER
 	struct notifier_block vbus_nb;
 	bool ta_stsatus;
