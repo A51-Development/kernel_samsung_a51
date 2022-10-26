@@ -421,7 +421,6 @@ struct mms_ts_info {
 	u8 *dev_fs_buf;
 #endif
 
-	bool support_dex;
 #ifdef CONFIG_VBUS_NOTIFIER
 	struct notifier_block vbus_nb;
 	bool ta_stsatus;
