@@ -2395,7 +2395,7 @@ static bool zs_compactable(struct zs_pool *pool, unsigned int pages)
 	return false;
 }
 
-void try_schedule_zs_compact()
+void try_schedule_zs_compact(void)
 {
 	static unsigned long resume = INITIAL_JIFFIES;
 
