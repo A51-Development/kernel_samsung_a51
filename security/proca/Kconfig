@@ -35,4 +35,6 @@ config PROCA_DEBUG
 	   might be used to check existence of task descriptor for some task
 	   in proca table.
 
+if PROCA
 source security/proca/gaf/Kconfig
+endif
