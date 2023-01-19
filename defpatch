@@ -1,0 +1,12 @@
+diff --git a/arch/arm64/configs/universal9610_defconfig b/arch/arm64/configs/universal9610_defconfig
+index c3b0739..65ff2b9 100644
+--- a/arch/arm64/configs/universal9610_defconfig
++++ b/arch/arm64/configs/universal9610_defconfig
+@@ -562,3 +562,7 @@ CONFIG_EXYNOS_VIPX_EXYNOS9610=y
+ CONFIG_EXYNOS_VIPX_INTERFACE=y
+ CONFIG_EXYNOS_VIPX_HARDWARE=y
+ CONFIG_EXYNOS_VIPX_MBOX=n
++CONFIG_CFG80211_WEXT=y
++CONFIG_CFG80211_WEXT_EXPORT=y
++CONFIG_WEXT_CORE=y
++CONFIG_WEXT_PROC=y
