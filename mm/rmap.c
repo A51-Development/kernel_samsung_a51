@@ -1887,7 +1887,7 @@ void rmap_walk(struct page *page, struct rmap_walk_control *rwc,
 					struct vm_area_struct *vma)
 {
 	if (unlikely(PageKsm(page)))
-		rmap_walk_ksm(page, rwc, vma);
+		rmap_walk_ksm(page, rwc);
 	else if (PageAnon(page))
 		rmap_walk_anon(page, rwc, false, vma);
 	else
