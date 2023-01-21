@@ -51,11 +51,6 @@
 static inline bool ext4_bio_encrypted(struct bio *bio)
 {
 #ifdef CONFIG_EXT4_FS_ENCRYPTION
-#ifdef CONFIG_FS_INLINE_ENCRYPTION
-	/* REQ_CRYPT is used for inline encryption */
-	if (bio->bi_opf & REQ_CRYPT)
-		return false;
-#endif
 	return unlikely(bio->bi_private != NULL);
 #else
 	return false;
@@ -287,8 +282,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 			struct fscrypt_ctx *ctx = NULL;
 
 			if (ext4_encrypted_inode(inode) &&
-			    S_ISREG(inode->i_mode) &&
-			    !fscrypt_inline_encrypted(inode)) {
+			    S_ISREG(inode->i_mode)) {
 				ctx = fscrypt_get_ctx(inode, GFP_NOFS);
 				if (IS_ERR(ctx))
 					goto set_error_page;
@@ -305,8 +299,6 @@ int ext4_mpage_readpages(struct address_space *mapping,
 			bio->bi_end_io = mpage_end_io;
 			bio->bi_private = ctx;
 			bio_set_op_attrs(bio, REQ_OP_READ, 0);
-			if (fscrypt_inline_encrypted(inode))
-				fscrypt_set_bio_cryptd(inode, bio);
 		}
 
 		length = first_hole << blkbits;
