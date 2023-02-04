@@ -816,9 +816,9 @@ static int eugov_init(struct cpufreq_policy *policy)
 		goto stop_kthread;
 	}
 
-	if (policy->up_transition_delay_us && policy->down_transition_delay_us) {
-		tunables->up_rate_limit_us = policy->up_transition_delay_us;
-		tunables->down_rate_limit_us = policy->down_transition_delay_us;
+	if (policy->transition_delay_us) {
+		tunables->up_rate_limit_us = policy->transition_delay_us;
+		tunables->down_rate_limit_us = policy->transition_delay_us;
 	} else {
 		unsigned int lat;
 
