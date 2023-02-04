@@ -937,3 +937,6 @@ static int __init dkgov_register(void)
 	return cpufreq_register_governor(&darknesssched_gov);
 }
 fs_initcall(dkgov_register);
+#define GOV_NAME darknesssched
+#define GOV_NAME_CAPS DARKNESSSCHED
+#include "define_default_govornor.h"

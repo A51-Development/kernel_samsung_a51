@@ -1032,3 +1032,7 @@ static int __init hxgov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_helix_schedutil);
 }
 fs_initcall(hxgov_register);
+#define GOV_NAME helix_schedutil
+#define GOV_NAME_CAPS HELIX
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

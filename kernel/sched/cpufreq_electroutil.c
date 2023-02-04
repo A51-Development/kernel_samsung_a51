@@ -987,3 +987,7 @@ static int __init eugov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_electroutil);
 }
 fs_initcall(eugov_register);
+#define GOV_NAME electroutil
+#define GOV_NAME_CAPS ELECTROUTIL
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

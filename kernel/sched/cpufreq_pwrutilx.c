@@ -812,3 +812,7 @@ static int __init pwrgov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_pwrutilx);
 }
 fs_initcall(pwrgov_register);
+#define GOV_NAME pwrutilx
+#define GOV_NAME_VAR PWRUTILX
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

@@ -1183,3 +1183,7 @@ static int __init dugov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_darkutil);
 }
 fs_initcall(dugov_register);
+#define GOV_NAME darkutil
+#define GOV_NAME_CAPS DARKUTIL
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

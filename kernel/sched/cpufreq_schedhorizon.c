@@ -1098,3 +1098,7 @@ static int __init sugov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_schedhorizon);
 }
 fs_initcall(sugov_register);
+#define GOV_NAME schedhorizon
+#define GOV_NAME_CAPS SCHEDHORIZON
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

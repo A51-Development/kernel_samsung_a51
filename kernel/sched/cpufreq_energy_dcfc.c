@@ -1053,3 +1053,7 @@ static int __init nrggov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_energy_dcfc);
 }
 fs_initcall(nrggov_register);
+#define GOV_NAME energy_dcfc
+#define GOV_NAME_CAPS ENERGY
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"

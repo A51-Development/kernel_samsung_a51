@@ -1246,3 +1246,6 @@ static int __init acgov_register(void)
 	return cpufreq_register_governor(&alucardsched_gov);
 }
 fs_initcall(acgov_register);
+#define GOV_NAME alucardsched
+#define GOV_NAME_CAPS ALUCARDSCHED
+#include "define_default_govornor.h"

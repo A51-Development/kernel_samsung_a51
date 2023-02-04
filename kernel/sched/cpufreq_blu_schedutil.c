@@ -863,3 +863,7 @@ static int __init sugov_register(void)
 	return cpufreq_register_governor(&cpufreq_gov_blu_schedutil);
 }
 fs_initcall(sugov_register);
+#define GOV_NAME blu_schedutil
+#define GOV_NAME_CAPS BLU_SCHEDUTIL
+#define GOV_CPUFREQ
+#include "define_default_govornor.h"
