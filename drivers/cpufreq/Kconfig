@@ -357,7 +357,7 @@ config CPU_FREQ_GOV_DARKUTIL
 
 config CPU_FREQ_GOV_ELECTROUTIL
         bool "'electroutil' cpufreq policy governor"
-        depends on CPU_FREQ && SMP
+        depends on CPU_FREQ && SMP && STATE_NOTIFIER
         select CPU_FREQ_GOV_ATTR_SET
         select IRQ_WORK
         help
