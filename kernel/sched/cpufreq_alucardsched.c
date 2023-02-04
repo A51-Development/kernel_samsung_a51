@@ -49,7 +49,6 @@ unsigned long boosted_cpu_util(int cpu);
 #define PUMP_DEC_STEP				1
 #define BOOST_PERC					10
 #else
-#define LATENCY_MULTIPLIER			(2000)
 /* to use per-cluster min/max tuning
 #define FREQ_RESPONSIVENESS			1036800
 */

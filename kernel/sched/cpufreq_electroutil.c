@@ -28,7 +28,6 @@ unsigned long boosted_cpu_util(int cpu);
 #define cpufreq_driver_fast_switch(x, y) 0
 #define cpufreq_enable_fast_switch(x)
 #define cpufreq_disable_fast_switch(x)
-#define LATENCY_MULTIPLIER			(1000)
 #define EUGOV_KTHREAD_PRIORITY	50
 #define DEFAULT_SUSPEND_MAX_FREQ 0
 #define DEFAULT_SUSPEND_CAPACITY_FACTOR 10
