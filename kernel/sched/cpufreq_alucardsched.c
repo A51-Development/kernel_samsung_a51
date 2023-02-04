@@ -24,6 +24,7 @@
 #ifdef CONFIG_STATE_NOTIFIER
 #include <linux/state_notifier.h>
 #endif
+#include "common_shim.h"
 
 #ifdef CONFIG_SCHED_WALT
 unsigned long boosted_cpu_util(int cpu);

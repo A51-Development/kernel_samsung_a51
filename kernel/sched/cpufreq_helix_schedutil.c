@@ -18,6 +18,7 @@
 
 #include "sched.h"
 #include "tune.h"
+#include "common_shim.h"
 
 #ifdef CONFIG_SCHED_WALT
 unsigned long boosted_cpu_util(int cpu);

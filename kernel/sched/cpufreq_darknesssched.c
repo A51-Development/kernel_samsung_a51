@@ -21,6 +21,7 @@
 
 #include "sched.h"
 #include "tune.h"
+#include "common_shim.h"
 #include <linux/display_state.h>
 
 #ifdef CONFIG_SCHED_WALT

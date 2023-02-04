@@ -20,6 +20,7 @@
 
 #include "sched.h"
 #include "tune.h"
+#include "common_shim.h"
 
 unsigned long boosted_cpu_util(int cpu);
 
