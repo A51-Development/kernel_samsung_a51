@@ -25,11 +25,6 @@
 
 unsigned long boosted_cpu_util(int cpu);
 
-/* Stub out fast switch routines present on mainline to reduce the backport
- * overhead. */
-#define cpufreq_driver_fast_switch(x, y) 0
-#define cpufreq_enable_fast_switch(x)
-#define cpufreq_disable_fast_switch(x)
 #define PWRGOV_KTHREAD_PRIORITY	50
 
 struct pwrgov_tunables {

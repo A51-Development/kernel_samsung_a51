@@ -26,15 +26,8 @@
 #ifdef CONFIG_SCHED_WALT
 unsigned long boosted_cpu_util(int cpu);
 #endif
-
-/* Stub out fast switch routines present on mainline to reduce the backport
- * overhead. */
-#define cpufreq_driver_fast_switch(x, y) 0
-#define cpufreq_enable_fast_switch(x)
-#define cpufreq_disable_fast_switch(x)
-#define DKGOV_KTHREAD_PRIORITY	50
-
-#define BOOST_PERC					5
+#define DKGOV_KTHREAD_PRIORITY 50
+#define BOOST_PERC		5
 #define DEFAULT_RATE_LIMIT_SUSP_NS ((s64)(80000 * NSEC_PER_USEC))
 
 struct dkgov_tunables {

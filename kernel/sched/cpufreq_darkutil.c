@@ -24,11 +24,6 @@
 
 unsigned long boosted_cpu_util(int cpu);
 
-/* Stub out fast switch routines present on mainline to reduce the backport
- * overhead. */
-#define cpufreq_driver_fast_switch(x, y) 0
-#define cpufreq_enable_fast_switch(x)
-#define cpufreq_disable_fast_switch(x)
 #define dugov_KTHREAD_PRIORITY	50
 #define DEFAULT_SUSPEND_MAX_FREQ_SILVER	1113600
 #define DEFAULT_SUSPEND_MAX_FREQ_GOLD	300000
