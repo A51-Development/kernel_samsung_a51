@@ -646,7 +646,6 @@ static ssize_t suspend_capacity_factor_store(struct gov_attr_set *attr_set,
 				      const char *buf, size_t count)
 {
 	struct eugov_tunables *tunables = to_eugov_tunables(attr_set);
-	struct eugov_policy *eg_policy;
 	unsigned int factor;
 
 	if (kstrtouint(buf, 10, &factor))

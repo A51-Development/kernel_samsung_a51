@@ -18,7 +18,6 @@
 #include <linux/kthread.h>
 #include <linux/slab.h>
 #include <trace/events/power.h>
-#include <linux/display_state.h>
 
 #include "sched.h"
 #include "tune.h"
@@ -180,11 +179,6 @@ static unsigned int get_next_freq(struct pwrgov_cpu *sg_cpu, unsigned long util,
 	struct cpufreq_policy *policy = sg_policy->policy;
 	unsigned int freq = arch_scale_freq_invariant() ?
 				policy->max : policy->cur;
-
-	const bool display_on = is_display_on();
-
-	if(!display_on && policy->cpu > 1)
-		freq = freq >> 2;
 
 	freq = freq * util / max;
 

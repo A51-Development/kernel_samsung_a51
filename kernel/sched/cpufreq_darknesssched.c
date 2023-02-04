@@ -22,7 +22,6 @@
 #include "sched.h"
 #include "tune.h"
 #include "common_shim.h"
-#include <linux/display_state.h>
 
 #ifdef CONFIG_SCHED_WALT
 unsigned long boosted_cpu_util(int cpu);
@@ -171,31 +170,14 @@ static bool dkgov_should_update_freq(struct dkgov_policy *sg_policy, u64 time)
 static bool dkgov_up_down_rate_limit(struct dkgov_policy *sg_policy, u64 time,
 				     unsigned int next_freq)
 {
-	/* Create display state boolean */
-	const bool display_on = is_display_on();
 	s64 delta_ns;
 
 	delta_ns = time - sg_policy->last_freq_update_time;
 
-	if (!display_on) {
-		if (sg_policy->up_rate_delay_ns != sg_policy->up_rate_delay_prev_ns)
-			sg_policy->up_rate_delay_ns = sg_policy->up_rate_delay_prev_ns;
-		if (sg_policy->down_rate_delay_ns != sg_policy->down_rate_delay_prev_ns)
-			sg_policy->down_rate_delay_ns = sg_policy->down_rate_delay_prev_ns;
-	} else if (display_on) {
-		if (sg_policy->up_rate_delay_ns != DEFAULT_RATE_LIMIT_SUSP_NS) {
-			sg_policy->up_rate_delay_prev_ns = sg_policy->up_rate_delay_ns;
-			sg_policy->up_rate_delay_ns
-				= max(sg_policy->up_rate_delay_ns,
-					DEFAULT_RATE_LIMIT_SUSP_NS);
-		}
-		if (sg_policy->down_rate_delay_ns != DEFAULT_RATE_LIMIT_SUSP_NS) {
-			sg_policy->down_rate_delay_prev_ns = sg_policy->down_rate_delay_ns;
-			sg_policy->down_rate_delay_ns
-				= max(sg_policy->down_rate_delay_ns,
-					DEFAULT_RATE_LIMIT_SUSP_NS);
-		}
-	}
+	if (sg_policy->up_rate_delay_ns != sg_policy->up_rate_delay_prev_ns)
+		sg_policy->up_rate_delay_ns = sg_policy->up_rate_delay_prev_ns;
+	if (sg_policy->down_rate_delay_ns != sg_policy->down_rate_delay_prev_ns)
+		sg_policy->down_rate_delay_ns = sg_policy->down_rate_delay_prev_ns;
 
 	if (next_freq > sg_policy->next_freq &&
 	    delta_ns < sg_policy->up_rate_delay_ns)
@@ -675,7 +657,7 @@ static int dkgov_kthread_create(struct dkgov_policy *sg_policy)
 	sg_policy->thread = thread;
 	kthread_bind_mask(thread, policy->related_cpus);
 	/* NB: wake up so the thread does not look hung to the freezer */
-	wake_up_process_no_notif(thread);
+	wake_up_process(thread);
 
 	return 0;
 }

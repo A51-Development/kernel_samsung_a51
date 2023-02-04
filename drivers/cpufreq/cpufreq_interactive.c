@@ -473,26 +473,6 @@ static void cpufreq_interactive_update(struct interactive_cpu *icpu)
 	slack_timer_resched(icpu, smp_processor_id(), true);
 }
 
-static void cpufreq_interactive_idle_end(void)
-{
-	struct interactive_cpu *icpu = &per_cpu(interactive_cpu,
-						smp_processor_id());
-
-	if (!down_read_trylock(&icpu->enable_sem))
-		return;
-
-	if (icpu->ipolicy) {
-		/*
-		 * We haven't sampled load for more than sampling_rate time, do
-		 * it right now.
-		 */
-		if (time_after_eq(jiffies, icpu->next_sample_jiffies))
-			cpufreq_interactive_update(icpu);
-	}
-
-	up_read(&icpu->enable_sem);
-}
-
 static void cpufreq_interactive_get_policy_info(struct cpufreq_policy *policy,
 						unsigned int *pmax_freq,
 						u64 *phvt, u64 *pfvt)
@@ -1013,19 +993,6 @@ static struct kobj_type interactive_tunables_ktype = {
 	.sysfs_ops = &governor_sysfs_ops,
 };
 
-static int cpufreq_interactive_idle_notifier(struct notifier_block *nb,
-					     unsigned long val, void *data)
-{
-	if (val == IDLE_END)
-		cpufreq_interactive_idle_end();
-
-	return 0;
-}
-
-static struct notifier_block cpufreq_interactive_idle_nb = {
-	.notifier_call = cpufreq_interactive_idle_notifier,
-};
-
 /* Interactive Governor callbacks */
 struct interactive_governor {
 	struct cpufreq_governor gov;
@@ -1216,7 +1183,6 @@ int cpufreq_interactive_init(struct cpufreq_policy *policy)
 
 	/* One time initialization for governor */
 	if (!interactive_gov.usage_count++) {
-		idle_notifier_register(&cpufreq_interactive_idle_nb);
 		cpufreq_register_notifier(&cpufreq_notifier_block,
 					  CPUFREQ_TRANSITION_NOTIFIER);
 	}
@@ -1250,7 +1216,6 @@ void cpufreq_interactive_exit(struct cpufreq_policy *policy)
 	if (!--interactive_gov.usage_count) {
 		cpufreq_unregister_notifier(&cpufreq_notifier_block,
 					    CPUFREQ_TRANSITION_NOTIFIER);
-		idle_notifier_unregister(&cpufreq_interactive_idle_nb);
 	}
 
 	count = gov_attr_set_put(&tunables->attr_set, &ipolicy->tunables_hook);
@@ -1334,7 +1299,6 @@ void cpufreq_interactive_limits(struct cpufreq_policy *policy)
 static struct interactive_governor interactive_gov = {
 	.gov = {
 		.name			= "interactive",
-		.max_transition_latency	= TRANSITION_LATENCY_LIMIT,
 		.owner			= THIS_MODULE,
 		.init			= cpufreq_interactive_init,
 		.exit			= cpufreq_interactive_exit,
