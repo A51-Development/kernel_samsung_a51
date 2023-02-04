@@ -486,7 +486,7 @@ static void eugov_irq_work(struct irq_work *irq_work)
 	 * after the work_in_progress flag is cleared. The effects of that are
 	 * neglected for now.
 	 */
-	queue_kthread_work(&eg_policy->worker, &eg_policy->work);
+	kthread_queue_work(&eg_policy->worker, &eg_policy->work);
 }
 
 /************************** sysfs interface ************************/
@@ -715,8 +715,8 @@ static int eugov_kthread_create(struct eugov_policy *eg_policy)
 	if (policy->fast_switch_enabled)
 		return 0;
 
-	init_kthread_work(&eg_policy->work, eugov_work);
-	init_kthread_worker(&eg_policy->worker);
+	kthread_init_work(&eg_policy->work, eugov_work);
+	kthread_init_worker(&eg_policy->worker);
 	thread = kthread_create(kthread_worker_fn, &eg_policy->worker,
 				"eugov:%d",
 				cpumask_first(policy->related_cpus));
@@ -748,7 +748,7 @@ static void eugov_kthread_stop(struct eugov_policy *eg_policy)
 	if (eg_policy->policy->fast_switch_enabled)
 		return;
 
-	flush_kthread_worker(&eg_policy->worker);
+	kthread_flush_worker(&eg_policy->worker);
 	kthread_stop(eg_policy->thread);
 	mutex_destroy(&eg_policy->work_lock);
 }
