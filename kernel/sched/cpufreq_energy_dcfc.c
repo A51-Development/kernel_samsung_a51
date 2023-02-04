@@ -1029,7 +1029,7 @@ static int nrggov_limits(struct cpufreq_policy *policy)
 
 	return 0;
 }
-
+#ifndef USE_NEW_STRUCT
 static int cpufreq_energy_dcfc_cb(struct cpufreq_policy *policy,
 				unsigned int event)
 {
@@ -1048,13 +1048,19 @@ static int cpufreq_energy_dcfc_cb(struct cpufreq_policy *policy,
 		BUG();
 	}
 }
-
+#else
+COMMON_GOVORNOR_SHIM(nrggov)
+#endif
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_ENERGY
 static
 #endif
 struct cpufreq_governor cpufreq_gov_energy_dcfc = {
 	.name = "energy-dcfc",
+#ifdef USE_NEW_STRUCT
+	COMMON_GOVORNOR_COMPAT(nrggov)
+#else
 	.governor = cpufreq_energy_dcfc_cb,
+#endif
 	.owner = THIS_MODULE,
 };
 

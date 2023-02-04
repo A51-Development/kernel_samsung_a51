@@ -783,7 +783,7 @@ static int pwrgov_limits(struct cpufreq_policy *policy)
 
 	return 0;
 }
-
+#ifndef USE_NEW_STRUCT
 static int cpufreq_pwrutilx_cb(struct cpufreq_policy *policy,
 				unsigned int event)
 {
@@ -802,13 +802,19 @@ static int cpufreq_pwrutilx_cb(struct cpufreq_policy *policy,
 		BUG();
 	}
 }
-
+#else
+COMMON_GOVORNOR_SHIM(pwrgov)
+#endif
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_PWRUTILX
 static
 #endif
 struct cpufreq_governor cpufreq_gov_pwrutilx = {
 	.name = "pwrutilx",
+#ifdef USE_NEW_STRUCT
+	COMMON_GOVORNOR_COMPAT(pwrgov)
+#else
 	.governor = cpufreq_pwrutilx_cb,
+#endif
 	.owner = THIS_MODULE,
 };
 

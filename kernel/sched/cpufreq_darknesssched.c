@@ -922,7 +922,7 @@ static int dkgov_limits(struct cpufreq_policy *policy)
 
 	return 0;
 }
-
+#ifndef USE_NEW_STRUCT
 static int cpufreq_darknesssched_cb(struct cpufreq_policy *policy,
 				unsigned int event)
 {
@@ -941,13 +941,19 @@ static int cpufreq_darknesssched_cb(struct cpufreq_policy *policy,
 		BUG();
 	}
 }
-
+#else
+COMMON_GOVORNOR_SHIM(dkgov)
+#endif
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESSSCHED
 static
 #endif
 struct cpufreq_governor darknesssched_gov = {
 	.name = "darknesssched",
+#ifdef USE_NEW_STRUCT
+	COMMON_GOVORNOR_COMPAT(dkgov)
+#else
 	.governor = cpufreq_darknesssched_cb,
+#endif
 	.owner = THIS_MODULE,
 };
 

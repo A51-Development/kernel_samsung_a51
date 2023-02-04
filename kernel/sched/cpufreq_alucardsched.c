@@ -1211,7 +1211,7 @@ static int acgov_limits(struct cpufreq_policy *policy)
 
 	return 0;
 }
-
+#ifndef USE_NEW_STRUCT
 static int cpufreq_alucardsched_cb(struct cpufreq_policy *policy,
 				unsigned int event)
 {
@@ -1230,13 +1230,19 @@ static int cpufreq_alucardsched_cb(struct cpufreq_policy *policy,
 		BUG();
 	}
 }
-
+#else
+COMMON_GOVORNOR_SHIM(acgov)
+#endif
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARDSCHED
 static
 #endif
 struct cpufreq_governor alucardsched_gov = {
 	.name = "alucardsched",
+#ifdef USE_NEW_STRUCT
+	COMMON_GOVORNOR_COMPAT(acgov)
+#else
 	.governor = cpufreq_alucardsched_cb,
+#endif
 	.owner = THIS_MODULE,
 };
 
